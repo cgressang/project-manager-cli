@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit
+    bootstrap = "vendor/autoload.php"
+    backupGlobals = "false"
+    backupStaticAttributes = "false"
+    colors = "true"
+    convertErrorsToExceptions = "true"
+    convertNoticesToExceptions = "true"
+    convertWarningsToExceptions = "true"
+    processIsolation = "false"
+    stopOnFailure = "false">
+    <testsuites>
+        <testsuite name="Commands Test Suite">
+            <directory>tests/Commands</directory>
+        </testsuite>
+    </testsuites>
+    <coverage>
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+        <exclude>
+            <directory>bin</directory>
+        </exclude>
+    </coverage>
+    <php>
+        <env name="APP_ENV" value="testing"/>
+    </php>
+
+</phpunit>

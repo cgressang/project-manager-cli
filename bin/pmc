@@ -1,0 +1,17 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__.'/../vendor/autoload.php';
+
+use Pmc\Commands;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Filesystem\Exception\IOException;
+
+$application = new Application('Pmc', '0.0.1');
+
+/**
+ * Commands
+ */
+$application->add(new Commands\LaravelCommand());
+
+$application->run();

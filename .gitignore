@@ -1,0 +1,5 @@
+# iOS attributes/metadata file
+.DS_Store
+
+# Dependency directories
+/vendor
