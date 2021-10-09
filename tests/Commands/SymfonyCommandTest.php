@@ -4,41 +4,32 @@ namespace Pmc\Tests\Commands;
 
 use Mockery;
 
-use Pmc\Commands\{Laravel, LaravelCommand};
+use Pmc\Commands\{Symfony, SymfonyCommand};
 use Pmc\Tests\BaseCommandTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class LaravelCommandTest extends BaseCommandTestCase
+class SymfonyCommandTest extends BaseCommandTestCase
 {
     private CommandTester $commandTester;
 
-    private LaravelCommand $testCommand;
+    private SymfonyCommand $testCommand;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->testCommand = $this->application->find('laravel');
+        $this->testCommand = $this->application->find('symfony');
         $this->commandTester = new CommandTester($this->testCommand);
     }
 
-    public function testWithWrongVersionOption(): void
-    {
-        $this->commandTester->execute([
-            'name' => 'test',
-            '--laravel-version' => '2',
-        ]);
-        $this->assertEquals('Valid versions: 6,8', trim($this->commandTester->getDisplay()));
-    }
-
-    public function testNoVersionOption(): void
+    public function testWebInstall(): void
     {
         $name = 'testApp';
-        $version = Laravel::ACTIVE_VERSIONS[8];
+        $package = Symfony::WEB_PACKAGE;
 
         $this->testCommand->expects($this->once())
             ->method('process')
-            ->with($this->getProcessCommand($name, $version))
+            ->with($this->getProcessCommand($name, $package))
             ->willReturn($this->process);
 
         $this->process->expects($this->once())
@@ -57,21 +48,21 @@ class LaravelCommandTest extends BaseCommandTestCase
         $this->assertEquals('Installation complete', trim($this->commandTester->getDisplay()));
     }
 
-    public function testVersionOption6(): void
+    public function testMicroServiceInstall(): void
     {
         $name = 'testApp';
-        $version = Laravel::ACTIVE_VERSIONS[6];
+        $package = Symfony::SKELETON_PACKAGE;
 
         $this->testCommand->expects($this->once())
             ->method('process')
-            ->with($this->getProcessCommand($name, $version))
+            ->with($this->getProcessCommand($name, $package))
             ->willReturn($this->process);
 
         $this->process->expects($this->once())
             ->method('setWorkingDirectory');
 
         $this->process->expects($this->once())
-        ->method('run');
+            ->method('run');
 
         $this->process->expects($this->once())
             ->method('isSuccessful')
@@ -79,7 +70,61 @@ class LaravelCommandTest extends BaseCommandTestCase
 
         $this->commandTester->execute([
             'name' => $name,
-            '--laravel-version' => 6
+            '--microservice' => true,
+        ]);
+        $this->assertEquals('Installation complete', trim($this->commandTester->getDisplay()));
+    }
+
+    public function testConsoleInstall(): void
+    {
+        $name = 'testApp';
+        $package = Symfony::SKELETON_PACKAGE;
+
+        $this->testCommand->expects($this->once())
+            ->method('process')
+            ->with($this->getProcessCommand($name, $package))
+            ->willReturn($this->process);
+
+        $this->process->expects($this->once())
+            ->method('setWorkingDirectory');
+
+        $this->process->expects($this->once())
+            ->method('run');
+
+        $this->process->expects($this->once())
+            ->method('isSuccessful')
+            ->willReturn(true);
+
+        $this->commandTester->execute([
+            'name' => $name,
+            '--console' => true,
+        ]);
+        $this->assertEquals('Installation complete', trim($this->commandTester->getDisplay()));
+    }
+
+    public function testApiInstall(): void
+    {
+        $name = 'testApp';
+        $package = Symfony::SKELETON_PACKAGE;
+
+        $this->testCommand->expects($this->once())
+            ->method('process')
+            ->with($this->getProcessCommand($name, $package))
+            ->willReturn($this->process);
+
+        $this->process->expects($this->once())
+            ->method('setWorkingDirectory');
+
+        $this->process->expects($this->once())
+            ->method('run');
+
+        $this->process->expects($this->once())
+            ->method('isSuccessful')
+            ->willReturn(true);
+
+        $this->commandTester->execute([
+            'name' => $name,
+            '--api' => true,
         ]);
         $this->assertEquals('Installation complete', trim($this->commandTester->getDisplay()));
     }
@@ -87,11 +132,11 @@ class LaravelCommandTest extends BaseCommandTestCase
     public function testFailedInstall(): void
     {
         $name = 'testApp';
-        $version = Laravel::ACTIVE_VERSIONS[8];
+        $package = Symfony::WEB_PACKAGE;
 
         $this->testCommand->expects($this->once())
             ->method('process')
-            ->with($this->getProcessCommand($name, $version))
+            ->with($this->getProcessCommand($name, $package))
             ->willReturn($this->process);
 
         $this->process->expects($this->once())
@@ -114,15 +159,13 @@ class LaravelCommandTest extends BaseCommandTestCase
         $this->assertEquals('FAILED', trim($this->commandTester->getDisplay()));
     }
 
-    protected function getProcessCommand(string $name, string $version): array
+    protected function getProcessCommand(string $name, string $package): array
     {
         return [
             'composer',
             'create-project',
-            '--prefer-dist',
-            'laravel/laravel',
+            $package,
             $name,
-            $version
         ];
     }
 }

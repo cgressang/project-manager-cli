@@ -8,20 +8,20 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class LaravelCommand extends Command
+class SymfonyCommand extends Command
 {
     /**
      * Command name
      * @var string
      */
-    protected static $defaultName = 'laravel';
+    protected static $defaultName = 'symfony';
 
 
     /**
      * Command description
      * @var string
      */
-    protected static $defaultDescription = 'create a laravel project.';
+    protected static $defaultDescription = 'create a symfony project.';
 
     /**
      * Configuration of command
@@ -31,17 +31,19 @@ class LaravelCommand extends Command
      */
     protected function configure(): void
     {
-        $this->setName('laravel')
-            ->setDescription('create a laravel project.')
-            ->setHelp('This command creates a laravel project.');
+        $this->setName('symfony')
+            ->setDescription('create a symfony project.')
+            ->setHelp('This command creates a symfony project.');
 
         $this
             ->addArgument('name', InputArgument::REQUIRED, 'project name')
-            ->addOption('laravel-version', null, InputOption::VALUE_OPTIONAL, 'laravel version');
+            ->addOption('microservice', null, InputOption::VALUE_OPTIONAL, 'microservice')
+            ->addOption('console', null, InputOption::VALUE_OPTIONAL, 'console')
+            ->addOption('api', null, InputOption::VALUE_OPTIONAL, 'api');
     }
 
     /**
-     * Execution of command to install a laravel project in current directory
+     * Execution of command to install a symfony project in current directory
      *
      * @param  InputInterface  $input
      * @param  OutputInterface $output
@@ -50,25 +52,23 @@ class LaravelCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $name = $input->getArgument('name');
-        $version = $input->getOption('laravel-version');
+        $microservice = $input->getOption('microservice');
+        $console = $input->getOption('console');
+        $api = $input->getOption('api');
 
-        // Version validation. default is laravel 8
-        if (!$version) {
-            $version = Laravel::VERSION_EIGHT;
-        } else if (!array_key_exists($version, Laravel::ACTIVE_VERSIONS)) {
-            $validVersions = array_keys(Laravel::ACTIVE_VERSIONS);
-            $output->writeln(sprintf('<error>%s</error>', sprintf('Valid versions: %s', implode(',', $validVersions))));
-            return Command::FAILURE;
+        // Check for install package
+        if ($microservice || $console || $api) {
+            $package = Symfony::SKELETON_PACKAGE;
+        } else {
+            $package = Symfony::WEB_PACKAGE;
         }
 
         // create new process
         $process = $this->process([
             'composer',
             'create-project',
-            '--prefer-dist',
-            'laravel/laravel',
+            $package,
             $name,
-            Laravel::ACTIVE_VERSIONS[$version]
         ]);
         $process->setWorkingDirectory(getcwd());
 
