@@ -5,6 +5,7 @@ namespace Pmc\Tests;
 use PHPUnit\Framework\TestCase;
 use Pmc\Commands\{
     LaravelCommand,
+    LumenCommand,
     SymfonyCommand
 };
 use Symfony\Component\Console\Application;
@@ -36,6 +37,7 @@ class BaseCommandTestCase extends TestCase
      */
     private array $commands = [
         LaravelCommand::class,
+        LumenCommand::class,
         SymfonyCommand::class,
     ];
 

@@ -7,11 +7,13 @@ use Pmc\Commands;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Filesystem\Exception\IOException;
 
-$application = new Application('Pmc', '0.0.1');
+$application = new Application('Pmc', '0.0.3');
 
 /**
  * Commands
  */
 $application->add(new Commands\LaravelCommand());
+$application->add(new Commands\LumenCommand());
+$application->add(new Commands\SymfonyCommand());
 
 $application->run();
