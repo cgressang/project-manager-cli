@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Pmc\Commands;
+namespace Pmc\Commands\PHP;
 
 /**
  * Symfony constants

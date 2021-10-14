@@ -1,34 +1,34 @@
 <?php declare(strict_types=1);
 
-namespace Pmc\Tests\Commands;
+namespace Pmc\Tests\Unit\Commands\PHP;
 
-use Mockery;
-
-use Pmc\Commands\{Laravel, LumenCommand};
-use Pmc\Tests\BaseCommandTestCase;
+use Pmc\Commands\PHP\{Laravel, LaravelCommand};
+use Pmc\Tests\Unit\Commands\BaseCommandTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class LumenCommandTest extends BaseCommandTestCase
+class LaravelCommandTest extends BaseCommandTestCase
 {
     private CommandTester $commandTester;
 
-    private LumenCommand $testCommand;
+    private LaravelCommand $testCommand;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->testCommand = $this->application->find('lumen');
+        $this->testCommand = $this->application->find('laravel');
         $this->commandTester = new CommandTester($this->testCommand);
     }
 
     public function testWithWrongVersionOption(): void
     {
-        $this->commandTester->execute([
+        $result = $this->commandTester->execute([
             'name' => 'test',
-            '--lumen-version' => '2',
+            '--laravel-version' => '2',
         ]);
+
         $this->assertEquals('Valid versions: 6,8', trim($this->commandTester->getDisplay()));
+        $this->assertEquals(LaravelCommand::FAILURE, $result);
     }
 
     public function testNoVersionOption(): void
@@ -51,13 +51,14 @@ class LumenCommandTest extends BaseCommandTestCase
             ->method('isSuccessful')
             ->willReturn(true);
 
-        $this->commandTester->execute([
+        $result = $this->commandTester->execute([
             'name' => $name,
         ]);
-        $this->assertEquals('Installation complete', trim($this->commandTester->getDisplay()));
+
+        $this->assertEquals(LaravelCommand::SUCCESS, $result);
     }
 
-    public function testVersionOption6(): void
+    public function testVersionOptionSix(): void
     {
         $name = 'testApp';
         $version = Laravel::ACTIVE_VERSIONS[6];
@@ -77,11 +78,12 @@ class LumenCommandTest extends BaseCommandTestCase
             ->method('isSuccessful')
             ->willReturn(true);
 
-        $this->commandTester->execute([
+        $result = $this->commandTester->execute([
             'name' => $name,
-            '--lumen-version' => 6
+            '--laravel-version' => 6
         ]);
-        $this->assertEquals('Installation complete', trim($this->commandTester->getDisplay()));
+
+        $this->assertEquals(LaravelCommand::SUCCESS, $result);
     }
 
     public function testFailedInstall(): void
@@ -104,14 +106,11 @@ class LumenCommandTest extends BaseCommandTestCase
             ->method('isSuccessful')
             ->willReturn(false);
 
-        $this->process->expects($this->once())
-            ->method('getErrorOutput')
-            ->willReturn('FAILED');
-
-        $this->commandTester->execute([
+        $result = $this->commandTester->execute([
             'name' => $name,
         ]);
-        $this->assertEquals('FAILED', trim($this->commandTester->getDisplay()));
+
+        $this->assertEquals(LaravelCommand::FAILURE, $result);
     }
 
     protected function getProcessCommand(string $name, string $version): array
@@ -120,7 +119,7 @@ class LumenCommandTest extends BaseCommandTestCase
             'composer',
             'create-project',
             '--prefer-dist',
-            'laravel/lumen',
+            'laravel/laravel',
             $name,
             $version
         ];

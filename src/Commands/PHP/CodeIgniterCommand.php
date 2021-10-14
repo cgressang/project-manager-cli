@@ -1,25 +1,25 @@
 <?php declare(strict_types=1);
 
-namespace Pmc\Commands;
+namespace Pmc\Commands\PHP;
 
 use Pmc\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CakePHPCommand extends Command
+class CodeIgniterCommand extends Command
 {
     /**
      * Command name
      * @var string
      */
-    protected static $defaultName = 'cakephp';
+    protected static $defaultName = 'codeigniter';
 
     /**
      * Command description
      * @var string
      */
-    protected static $defaultDescription = 'Create a CakePHP project.';
+    protected static $defaultDescription = 'Create a CodeIgniter project.';
 
     /**
      * Configuration of command
@@ -29,14 +29,14 @@ class CakePHPCommand extends Command
      */
     protected function configure(): void
     {
-        $this->setName('cakephp')
-            ->setDescription('Create a CakePHP project.')
-            ->setHelp('This command creates a CakePHP project.')
+        $this->setName('codeigniter')
+            ->setDescription('Create a CodeIgniter project.')
+            ->setHelp('This command creates a CodeIgniter project.')
             ->addArgument('name', InputArgument::REQUIRED, 'Project name');
     }
 
     /**
-     * Execution of command to install a CakePHP project in current directory
+     * Execution of command to install a CodeIgniter project in current directory
      *
      * @param  InputInterface  $input
      * @param  OutputInterface $output
@@ -50,8 +50,7 @@ class CakePHPCommand extends Command
         $process = $this->process([
             'composer',
             'create-project',
-            '--prefer-dist',
-            CakePHP::PACKAGE,
+            CodeIgniter::PACKAGE,
             $name,
         ]);
         $process->setWorkingDirectory(getcwd());

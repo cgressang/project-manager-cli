@@ -1,26 +1,27 @@
 <?php declare(strict_types=1);
 
-namespace Pmc\Commands;
+namespace Pmc\Commands\PHP;
 
 use Pmc\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
-class SlimCommand extends Command
+class ZendCommand extends Command
 {
     /**
      * Command name
      * @var string
      */
-    protected static $defaultName = 'slim';
+    protected static $defaultName = 'zend';
 
     /**
      * Command description
      * @var string
      */
-    protected static $defaultDescription = 'Create a Slim project.';
+    protected static $defaultDescription = 'create a Zend project.';
 
     /**
      * Configuration of command
@@ -30,15 +31,15 @@ class SlimCommand extends Command
      */
     protected function configure(): void
     {
-        $this->setName('slim')
-            ->setDescription('Create a Slim project.')
-            ->setHelp('This command creates a Slim project.')
+        $this->setName('zend')
+            ->setDescription('Create a Zend project.')
+            ->setHelp('This command creates a Zend project.')
             ->addArgument('name', InputArgument::REQUIRED, 'Project name')
-            ->addArgument('psr7', InputArgument::REQUIRED, 'What psr-7 implementation to use?');
+            ->addOption('mvc', null, InputOption::VALUE_NONE, 'mvc');
     }
 
     /**
-     * Execution of command to install a Slim project.
+     * Execution of command to install a Zend project in current directory
      *
      * @param  InputInterface  $input
      * @param  OutputInterface $output
@@ -47,13 +48,11 @@ class SlimCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $name = $input->getArgument('name');
-        $psr7 = strtolower($input->getArgument('psr7'));
 
-        $psrOptions = array_keys(Slim::PSR_PACKAGES);
-
-        if (!in_array($psr7, $psrOptions)) {
-            $output->writeln(sprintf('<error>%s</error>', sprintf('Valid psr-7: %s', implode(',', $psrOptions))));
-            return Command::FAILURE;
+        // Check for install package
+        $package = Zend::FRAMEWORK_PACKAGE;
+        if ($input->getOption('mvc')) {
+            $package = Zend::MVC_PACKAGE;
         }
 
         $filesystem = $this->Filesystem();
@@ -67,16 +66,12 @@ class SlimCommand extends Command
             }
         }
 
-        $commandArr = [
+        // create new process
+        $process = $this->process([
             'composer',
             'require',
-            SLIM::PACKAGE,
-        ];
-
-        $commandArr = array_merge($commandArr, SLIM::PSR_PACKAGES[$psr7]);
-
-        // create new process for slim and psr7 install
-        $process = $this->process($commandArr);
+            $package,
+        ]);
         $process->setWorkingDirectory(getcwd().DIRECTORY_SEPARATOR.$name);
 
         $process->run();

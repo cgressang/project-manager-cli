@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Pmc\Commands;
+namespace Pmc\Commands\PHP;
 
 use Pmc\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -8,20 +8,19 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class LumenCommand extends Command
+class LaravelCommand extends Command
 {
     /**
      * Command name
      * @var string
      */
-    protected static $defaultName = 'lumen';
-
+    protected static $defaultName = 'laravel';
 
     /**
      * Command description
      * @var string
      */
-    protected static $defaultDescription = 'Create a Lumen project.';
+    protected static $defaultDescription = 'Create a Laravel project.';
 
     /**
      * Configuration of command
@@ -31,15 +30,15 @@ class LumenCommand extends Command
      */
     protected function configure(): void
     {
-        $this->setName('lumen')
-            ->setDescription('Create a Lumen project.')
-            ->setHelp('This command creates a Lumen project.')
+        $this->setName('laravel')
+            ->setDescription('Create a Laravel project.')
+            ->setHelp('This command creates a Laravel project.')
             ->addArgument('name', InputArgument::REQUIRED, 'Project name')
-            ->addOption('lumen-version', null, InputOption::VALUE_OPTIONAL, 'Lumen version');
+            ->addOption('laravel-version', null, InputOption::VALUE_OPTIONAL, 'Laravel version');
     }
 
     /**
-     * Execution of command to install a Lumen project in current directory
+     * Execution of command to install a Laravel project in current directory
      *
      * @param  InputInterface  $input
      * @param  OutputInterface $output
@@ -48,9 +47,9 @@ class LumenCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $name = $input->getArgument('name');
-        $version = $input->getOption('lumen-version');
+        $version = $input->getOption('laravel-version');
 
-        // Version validation. default is lumen 8
+        // Version validation. default is laravel 8
         if (!$version) {
             $version = Laravel::VERSION_EIGHT;
         } else if (!array_key_exists($version, Laravel::ACTIVE_VERSIONS)) {
@@ -64,7 +63,7 @@ class LumenCommand extends Command
             'composer',
             'create-project',
             '--prefer-dist',
-            'laravel/lumen',
+            Laravel::PACKAGE,
             $name,
             Laravel::ACTIVE_VERSIONS[$version]
         ]);
@@ -74,11 +73,8 @@ class LumenCommand extends Command
 
         // Check and handle error from process
         if (!$process->isSuccessful()) {
-            $output->writeln($process->getErrorOutput());
             return Command::FAILURE;
         }
-
-        $output->writeln('Installation complete');
 
         return Command::SUCCESS;
     }

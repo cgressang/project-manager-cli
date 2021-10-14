@@ -1,9 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Pmc\Tests;
+namespace Pmc\Tests\Unit\Commands;
 
 use PHPUnit\Framework\TestCase;
-use Pmc\Commands\{
+use Pmc\Commands\Angular\AngularCommand;
+use Pmc\Commands\PHP\{
     CakePHPCommand,
     CodeIgniterCommand,
     LaminasCommand,
@@ -49,6 +50,9 @@ class BaseCommandTestCase extends TestCase
      * @var array
      */
     private array $commands = [
+        //Angular
+        AngularCommand::class,
+        //PHP
         CakePHPCommand::class,
         CodeIgniterCommand::class,
         LaminasCommand::class,
