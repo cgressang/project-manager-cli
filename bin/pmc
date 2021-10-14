@@ -3,22 +3,23 @@
 
 require __DIR__.'/../vendor/autoload.php';
 
-use Pmc\Commands;
+use Pmc\Commands\Angular;
+use Pmc\Commands\PHP;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Filesystem\Exception\IOException;
 
-$application = new Application('Pmc', '0.1.0');
+$application = new Application('Pmc', '0.1.1');
 
-/**
- * Commands
- */
-$application->add(new Commands\CakePHPCommand());
-$application->add(new Commands\CodeIgniterCommand());
-$application->add(new Commands\LaminasCommand());
-$application->add(new Commands\LaravelCommand());
-$application->add(new Commands\LumenCommand());
-$application->add(new Commands\SlimCommand());
-$application->add(new Commands\SymfonyCommand());
-$application->add(new Commands\ZendCommand());
+// Angular
+$application->add(new Angular\AngularCommand());
+// PHP
+$application->add(new PHP\CakePHPCommand());
+$application->add(new PHP\CodeIgniterCommand());
+$application->add(new PHP\LaminasCommand());
+$application->add(new PHP\LaravelCommand());
+$application->add(new PHP\LumenCommand());
+$application->add(new PHP\SlimCommand());
+$application->add(new PHP\SymfonyCommand());
+$application->add(new PHP\ZendCommand());
 
 $application->run();

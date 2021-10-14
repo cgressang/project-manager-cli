@@ -1,11 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Pmc\Tests\Commands;
+namespace Pmc\Tests\Unit\Commands\PHP;
 
-use Mockery;
-
-use Pmc\Commands\{CodeIgniter, CodeIgniterCommand};
-use Pmc\Tests\BaseCommandTestCase;
+use Pmc\Commands\PHP\{CodeIgniter, CodeIgniterCommand};
+use Pmc\Tests\Unit\Commands\BaseCommandTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class CodeIgniterCommandTest extends BaseCommandTestCase

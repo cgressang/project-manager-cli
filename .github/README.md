@@ -4,24 +4,41 @@ CLI to install new projects
 
 # Prerequisites
 
-    composer
+* Composer [global install](https://getcomposer.org/download/)
+* Node.js  [install](https://nodejs.org/en/download/)
+* Angular  [install](https://angular.io/guide/setup-local)
 
 # Install
 
-    php -r "copy('https://github.com/cgressang/project-manager-cli/blob/main/bin/pmc.phar', 'pmc.phar');"
-    sudo mv pmc.phar /usr/local/bin/pmc
+```console
+$ php -r "copy('https://github.com/cgressang/project-manager-cli/blob/main/bin/pmc.phar', 'pmc.phar');"
+$ sudo mv pmc.phar /usr/local/bin/pmc
+```
 
-# Projects
+# Projects available
+### PHP
+* [CakePHP](https://cakephp.org/)
+* [CodeIgniter](https://codeigniter.com/)
+  * Versions: 3, 4
+* [Laminas](https://getlaminas.org/)
+* [Laravel](https://laravel.com/)
+  * Versions: 6, 8
+* [Lumen](https://lumen.laravel.com/)
+  * Versions: 6, 8
+* [Slim](https://www.slimframework.com/)
+* [Symfony](https://symfony.com/)
+  * Web
+  * Microservice
+  * Console
+  * Api
+* [Zend](https://framework.zend.com/)
+  * Framework
+  * Mvc
 
-    CakePHP
-    CodeIgniter. versions: 4, 3
-    Laminas
-    Laravel. versions: 6, 8
-    Lumen. versions: 6, 8
-    Slim
-    Symfony. web and microservice,console,api
-    Zend. framework and mvc
+### [Angular](https://angular.io/)
 
 # Launch
 
-    pmc [project] [OPTIONS]
+```console
+$ pmc [project] [OPTIONS]
+```

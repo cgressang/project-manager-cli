@@ -12,8 +12,11 @@
     stopOnFailure = "false"
     cacheResult = "false">
     <testsuites>
-        <testsuite name="Commands Test Suite">
-            <directory>tests/Commands</directory>
+        <testsuite name="Angular Commands Unit Test Suite">
+            <directory>tests/Unit/Commands/Angular</directory>
+        </testsuite>
+        <testsuite name="PHP Commands Unit Test Suite">
+            <directory>tests/Unit/Commands/PHP</directory>
         </testsuite>
     </testsuites>
     <coverage>

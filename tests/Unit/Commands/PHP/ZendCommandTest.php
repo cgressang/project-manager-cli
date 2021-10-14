@@ -1,32 +1,29 @@
 <?php declare(strict_types=1);
 
-namespace Pmc\Tests\Commands;
+namespace Pmc\Tests\Unit\Commands\PHP;
 
-use Mockery;
-
-use Pmc\Commands\{Slim, SlimCommand};
-use Pmc\Tests\BaseCommandTestCase;
+use Pmc\Commands\PHP\{Zend, ZendCommand};
+use Pmc\Tests\Unit\Commands\BaseCommandTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Exception\IOException;
 
-class SlimCommandTest extends BaseCommandTestCase
+class ZendCommandTest extends BaseCommandTestCase
 {
     private CommandTester $commandTester;
 
-    private SlimCommand $testCommand;
+    private ZendCommand $testCommand;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->testCommand = $this->application->find('slim');
+        $this->testCommand = $this->application->find('zend');
         $this->commandTester = new CommandTester($this->testCommand);
     }
 
     public function testInstall(): void
     {
         $name = 'testApp';
-        $psr7 = Slim::GUZZLE;
 
         $this->testCommand->expects($this->once())
             ->method('filesystem')
@@ -39,7 +36,7 @@ class SlimCommandTest extends BaseCommandTestCase
 
         $this->testCommand->expects($this->once())
             ->method('process')
-            ->with($this->getProcessCommand(SLIM::PACKAGE, SLIM::PSR_PACKAGES[$psr7]))
+            ->with($this->getProcessCommand(Zend::FRAMEWORK_PACKAGE))
             ->willReturn($this->process);
 
         $this->process->expects($this->once())
@@ -54,30 +51,51 @@ class SlimCommandTest extends BaseCommandTestCase
 
         $result = $this->commandTester->execute([
             'name' => $name,
-            'psr7' => $psr7,
         ]);
 
-        $this->assertEquals(SlimCommand::SUCCESS, $result);
+        $this->assertEquals(ZendCommand::SUCCESS, $result);
     }
 
-    public function testWrongPsr(): void
+    public function testMvcInstall(): void
     {
         $name = 'testApp';
-        $psr7 = 'testing';
+        $mvc = true;
+
+        $this->testCommand->expects($this->once())
+            ->method('filesystem')
+            ->willReturn($this->filesystem);
+
+        $this->filesystem->expects($this->once())
+            ->method('exists')
+            ->with($name)
+            ->willReturn(true);
+
+        $this->testCommand->expects($this->once())
+            ->method('process')
+            ->with($this->getProcessCommand(Zend::MVC_PACKAGE))
+            ->willReturn($this->process);
+
+        $this->process->expects($this->once())
+            ->method('setWorkingDirectory');
+
+        $this->process->expects($this->once())
+            ->method('run');
+
+        $this->process->expects($this->once())
+            ->method('isSuccessful')
+            ->willReturn(true);
 
         $result = $this->commandTester->execute([
             'name' => $name,
-            'psr7' => $psr7,
+            '--mvc' => $mvc,
         ]);
 
-        $this->assertEquals('Valid psr-7: slim,nyholm,guzzle,laminas', trim($this->commandTester->getDisplay()));
-        $this->assertEquals(SlimCommand::FAILURE, $result);
+        $this->assertEquals(ZendCommand::SUCCESS, $result);
     }
 
     public function testMakeDirFail(): void
     {
         $name = 'testApp';
-        $psr7 = 'slim';
 
         $this->testCommand->expects($this->once())
             ->method('filesystem')
@@ -95,17 +113,15 @@ class SlimCommandTest extends BaseCommandTestCase
 
         $result = $this->commandTester->execute([
             'name' => $name,
-            'psr7' => $psr7,
         ]);
 
         $this->assertEquals('Could not create directory: testApp', trim($this->commandTester->getDisplay()));
-        $this->assertEquals(SlimCommand::FAILURE, $result);
+        $this->assertEquals(ZendCommand::FAILURE, $result);
     }
 
     public function testFailedInstall(): void
     {
         $name = 'testApp';
-        $psr7 = Slim::NYHOLM;
 
         $this->testCommand->expects($this->once())
             ->method('filesystem')
@@ -118,7 +134,7 @@ class SlimCommandTest extends BaseCommandTestCase
 
         $this->testCommand->expects($this->once())
             ->method('process')
-            ->with($this->getProcessCommand(SLIM::PACKAGE, SLIM::PSR_PACKAGES[$psr7]))
+            ->with($this->getProcessCommand(Zend::FRAMEWORK_PACKAGE))
             ->willReturn($this->process);
 
         $this->process->expects($this->once())
@@ -133,20 +149,17 @@ class SlimCommandTest extends BaseCommandTestCase
 
         $result = $this->commandTester->execute([
             'name' => $name,
-            'psr7' => $psr7,
         ]);
 
-        $this->assertEquals(SlimCommand::FAILURE, $result);
+        $this->assertEquals(ZendCommand::FAILURE, $result);
     }
 
-    protected function getProcessCommand(string $slimPackage, array $psr7Package): array
+    protected function getProcessCommand(string $package): array
     {
-        $commandArr = [
+        return [
             'composer',
             'require',
-            $slimPackage,
+            $package,
         ];
-
-        return array_merge($commandArr, $psr7Package);
     }
 }
