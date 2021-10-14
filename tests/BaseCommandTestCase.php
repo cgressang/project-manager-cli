@@ -5,6 +5,7 @@ namespace Pmc\Tests;
 use PHPUnit\Framework\TestCase;
 use Pmc\Commands\{
     CakePHPCommand,
+    CodeIgniterCommand,
     LaminasCommand,
     LaravelCommand,
     LumenCommand,
@@ -49,6 +50,7 @@ class BaseCommandTestCase extends TestCase
      */
     private array $commands = [
         CakePHPCommand::class,
+        CodeIgniterCommand::class,
         LaminasCommand::class,
         LaravelCommand::class,
         LumenCommand::class,

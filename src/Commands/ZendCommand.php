@@ -21,7 +21,7 @@ class ZendCommand extends Command
      * Command description
      * @var string
      */
-    protected static $defaultDescription = 'create a zend project.';
+    protected static $defaultDescription = 'create a Zend project.';
 
     /**
      * Configuration of command
@@ -32,14 +32,14 @@ class ZendCommand extends Command
     protected function configure(): void
     {
         $this->setName('zend')
-            ->setDescription('create a zend project.')
-            ->setHelp('This command creates a zend project.')
-            ->addArgument('name', InputArgument::REQUIRED, 'project name')
+            ->setDescription('Create a Zend project.')
+            ->setHelp('This command creates a Zend project.')
+            ->addArgument('name', InputArgument::REQUIRED, 'Project name')
             ->addOption('mvc', null, InputOption::VALUE_NONE, 'mvc');
     }
 
     /**
-     * Execution of command to install a zend project in current directory
+     * Execution of command to install a Zend project in current directory
      *
      * @param  InputInterface  $input
      * @param  OutputInterface $output

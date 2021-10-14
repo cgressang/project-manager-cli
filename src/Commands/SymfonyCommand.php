@@ -20,7 +20,7 @@ class SymfonyCommand extends Command
      * Command description
      * @var string
      */
-    protected static $defaultDescription = 'create a symfony project.';
+    protected static $defaultDescription = 'Create a Symfony project.';
 
     /**
      * Configuration of command
@@ -31,16 +31,16 @@ class SymfonyCommand extends Command
     protected function configure(): void
     {
         $this->setName('symfony')
-            ->setDescription('create a symfony project.')
-            ->setHelp('This command creates a symfony project.')
-            ->addArgument('name', InputArgument::REQUIRED, 'project name')
-            ->addOption('microservice', null, InputOption::VALUE_NONE, 'microservice')
-            ->addOption('console', null, InputOption::VALUE_NONE, 'console')
-            ->addOption('api', null, InputOption::VALUE_NONE, 'api');
+            ->setDescription('Create a Symfony project.')
+            ->setHelp('This command creates a Symfony project.')
+            ->addArgument('name', InputArgument::REQUIRED, 'Project name')
+            ->addOption('microservice', null, InputOption::VALUE_NONE, 'Microservice')
+            ->addOption('console', null, InputOption::VALUE_NONE, 'Console')
+            ->addOption('api', null, InputOption::VALUE_NONE, 'Api');
     }
 
     /**
-     * Execution of command to install a symfony project in current directory
+     * Execution of command to install a Symfony project in current directory
      *
      * @param  InputInterface  $input
      * @param  OutputInterface $output

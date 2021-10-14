@@ -20,7 +20,7 @@ class SlimCommand extends Command
      * Command description
      * @var string
      */
-    protected static $defaultDescription = 'create a slim project.';
+    protected static $defaultDescription = 'Create a Slim project.';
 
     /**
      * Configuration of command
@@ -31,14 +31,14 @@ class SlimCommand extends Command
     protected function configure(): void
     {
         $this->setName('slim')
-            ->setDescription('create a slim project.')
-            ->setHelp('This command creates a slim project.')
-            ->addArgument('name', InputArgument::REQUIRED, 'project name')
-            ->addArgument('psr7', InputArgument::REQUIRED, 'what psr-7 implementation to use?');
+            ->setDescription('Create a Slim project.')
+            ->setHelp('This command creates a Slim project.')
+            ->addArgument('name', InputArgument::REQUIRED, 'Project name')
+            ->addArgument('psr7', InputArgument::REQUIRED, 'What psr-7 implementation to use?');
     }
 
     /**
-     * Execution of command to install a slim project.
+     * Execution of command to install a Slim project.
      *
      * @param  InputInterface  $input
      * @param  OutputInterface $output
