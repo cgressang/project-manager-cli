@@ -18,6 +18,7 @@ CLI to install new projects
     Lumen. versions: 6, 8
     Slim
     Symfony. web and microservice,console,api
+    Zend. framework and mvc
 
 # Launch
 
