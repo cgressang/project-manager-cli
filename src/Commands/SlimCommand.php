@@ -24,7 +24,7 @@ class SlimCommand extends Command
 
     /**
      * Configuration of command
-     * Setting name and description for symfony tests.
+     * Setting name and description for tests.
      *
      * @return void
      */
@@ -32,9 +32,7 @@ class SlimCommand extends Command
     {
         $this->setName('slim')
             ->setDescription('create a slim project.')
-            ->setHelp('This command creates a slim project.');
-
-        $this
+            ->setHelp('This command creates a slim project.')
             ->addArgument('name', InputArgument::REQUIRED, 'project name')
             ->addArgument('psr7', InputArgument::REQUIRED, 'what psr-7 implementation to use?');
     }
@@ -85,11 +83,8 @@ class SlimCommand extends Command
 
         // Check and handle error from process
         if (!$process->isSuccessful()) {
-            $output->writeln($process->getErrorOutput());
             return Command::FAILURE;
         }
-
-        $output->writeln('Installation complete');
 
         return Command::SUCCESS;
     }

@@ -23,7 +23,7 @@ class CakePHPCommand extends Command
 
     /**
      * Configuration of command
-     * Setting name and description for symfony tests.
+     * Setting name and description for tests.
      *
      * @return void
      */
@@ -31,9 +31,7 @@ class CakePHPCommand extends Command
     {
         $this->setName('cakephp')
             ->setDescription('create a cakePHP project.')
-            ->setHelp('This command creates a cakePHP project.');
-
-        $this
+            ->setHelp('This command creates a cakePHP project.')
             ->addArgument('name', InputArgument::REQUIRED, 'project name');
     }
 
@@ -53,7 +51,7 @@ class CakePHPCommand extends Command
             'composer',
             'create-project',
             '--prefer-dist',
-            'cakephp/app:^4.0',
+            CakePHP::PACKAGE,
             $name,
         ]);
         $process->setWorkingDirectory(getcwd());
@@ -62,11 +60,8 @@ class CakePHPCommand extends Command
 
         // Check and handle error from process
         if (!$process->isSuccessful()) {
-            $output->writeln($process->getErrorOutput());
             return Command::FAILURE;
         }
-
-        $output->writeln('Installation complete');
 
         return Command::SUCCESS;
     }

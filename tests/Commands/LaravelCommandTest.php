@@ -24,11 +24,13 @@ class LaravelCommandTest extends BaseCommandTestCase
 
     public function testWithWrongVersionOption(): void
     {
-        $this->commandTester->execute([
+        $result = $this->commandTester->execute([
             'name' => 'test',
             '--laravel-version' => '2',
         ]);
+
         $this->assertEquals('Valid versions: 6,8', trim($this->commandTester->getDisplay()));
+        $this->assertEquals(LaravelCommand::FAILURE, $result);
     }
 
     public function testNoVersionOption(): void
@@ -51,13 +53,14 @@ class LaravelCommandTest extends BaseCommandTestCase
             ->method('isSuccessful')
             ->willReturn(true);
 
-        $this->commandTester->execute([
+        $result = $this->commandTester->execute([
             'name' => $name,
         ]);
-        $this->assertEquals('Installation complete', trim($this->commandTester->getDisplay()));
+
+        $this->assertEquals(LaravelCommand::SUCCESS, $result);
     }
 
-    public function testVersionOption6(): void
+    public function testVersionOptionSix(): void
     {
         $name = 'testApp';
         $version = Laravel::ACTIVE_VERSIONS[6];
@@ -77,11 +80,12 @@ class LaravelCommandTest extends BaseCommandTestCase
             ->method('isSuccessful')
             ->willReturn(true);
 
-        $this->commandTester->execute([
+        $result = $this->commandTester->execute([
             'name' => $name,
             '--laravel-version' => 6
         ]);
-        $this->assertEquals('Installation complete', trim($this->commandTester->getDisplay()));
+
+        $this->assertEquals(LaravelCommand::SUCCESS, $result);
     }
 
     public function testFailedInstall(): void
@@ -104,14 +108,11 @@ class LaravelCommandTest extends BaseCommandTestCase
             ->method('isSuccessful')
             ->willReturn(false);
 
-        $this->process->expects($this->once())
-            ->method('getErrorOutput')
-            ->willReturn('FAILED');
-
-        $this->commandTester->execute([
+        $result = $this->commandTester->execute([
             'name' => $name,
         ]);
-        $this->assertEquals('FAILED', trim($this->commandTester->getDisplay()));
+
+        $this->assertEquals(LaravelCommand::FAILURE, $result);
     }
 
     protected function getProcessCommand(string $name, string $version): array

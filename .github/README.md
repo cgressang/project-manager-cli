@@ -14,6 +14,7 @@ CLI to install new projects
 # Projects
 
     CakePHP
+    Laminas
     Laravel. versions: 6,8
     Lumen. versions: 6, 8
     Slim

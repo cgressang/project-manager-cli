@@ -5,22 +5,22 @@ namespace Pmc\Commands;
 use Pmc\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
-class SymfonyCommand extends Command
+class LaminasCommand extends Command
 {
     /**
      * Command name
      * @var string
      */
-    protected static $defaultName = 'symfony';
+    protected static $defaultName = 'laminas';
 
     /**
      * Command description
      * @var string
      */
-    protected static $defaultDescription = 'create a symfony project.';
+    protected static $defaultDescription = 'create a laminas project.';
 
     /**
      * Configuration of command
@@ -30,17 +30,14 @@ class SymfonyCommand extends Command
      */
     protected function configure(): void
     {
-        $this->setName('symfony')
-            ->setDescription('create a symfony project.')
-            ->setHelp('This command creates a symfony project.')
-            ->addArgument('name', InputArgument::REQUIRED, 'project name')
-            ->addOption('microservice', null, InputOption::VALUE_NONE, 'microservice')
-            ->addOption('console', null, InputOption::VALUE_NONE, 'console')
-            ->addOption('api', null, InputOption::VALUE_NONE, 'api');
+        $this->setName('laminas')
+            ->setDescription('create a laminas project.')
+            ->setHelp('This command creates a laminas project.')
+            ->addArgument('name', InputArgument::REQUIRED, 'project name');
     }
 
     /**
-     * Execution of command to install a symfony project in current directory
+     * Execution of command to install a laminas project in current directory
      *
      * @param  InputInterface  $input
      * @param  OutputInterface $output
@@ -50,21 +47,13 @@ class SymfonyCommand extends Command
     {
         $name = $input->getArgument('name');
 
-        // Check for install package
-        $package = Symfony::WEB_PACKAGE;
-        if (
-            $input->getOption('microservice')
-            || $input->getOption('console')
-            || $input->getOption('api')
-        ) {
-            $package = Symfony::SKELETON_PACKAGE;
-        }
-
         // create new process
         $process = $this->process([
             'composer',
             'create-project',
-            $package,
+            '-s',
+            'dev',
+            Laminas::PACKAGE,
             $name,
         ]);
         $process->setWorkingDirectory(getcwd());
@@ -73,11 +62,8 @@ class SymfonyCommand extends Command
 
         // Check and handle error from process
         if (!$process->isSuccessful()) {
-            $output->writeln($process->getErrorOutput());
             return Command::FAILURE;
         }
-
-        $output->writeln('Installation complete');
 
         return Command::SUCCESS;
     }

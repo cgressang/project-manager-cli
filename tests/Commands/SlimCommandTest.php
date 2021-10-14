@@ -52,11 +52,12 @@ class SlimCommandTest extends BaseCommandTestCase
             ->method('isSuccessful')
             ->willReturn(true);
 
-        $this->commandTester->execute([
+        $result = $this->commandTester->execute([
             'name' => $name,
             'psr7' => $psr7,
         ]);
-        $this->assertEquals('Installation complete', trim($this->commandTester->getDisplay()));
+
+        $this->assertEquals(SlimCommand::SUCCESS, $result);
     }
 
     public function testWrongPsr(): void
@@ -64,11 +65,13 @@ class SlimCommandTest extends BaseCommandTestCase
         $name = 'testApp';
         $psr7 = 'testing';
 
-        $this->commandTester->execute([
+        $result = $this->commandTester->execute([
             'name' => $name,
             'psr7' => $psr7,
         ]);
+
         $this->assertEquals('Valid psr-7: slim,nyholm,guzzle,laminas', trim($this->commandTester->getDisplay()));
+        $this->assertEquals(SlimCommand::FAILURE, $result);
     }
 
     public function testMakeDirFail(): void
@@ -90,11 +93,13 @@ class SlimCommandTest extends BaseCommandTestCase
             ->with($name)
             ->will($this->throwException(new IOException('')));
 
-        $this->commandTester->execute([
+        $result = $this->commandTester->execute([
             'name' => $name,
             'psr7' => $psr7,
         ]);
+
         $this->assertEquals('Could not create directory: testApp', trim($this->commandTester->getDisplay()));
+        $this->assertEquals(SlimCommand::FAILURE, $result);
     }
 
     public function testFailedInstall(): void
@@ -126,15 +131,12 @@ class SlimCommandTest extends BaseCommandTestCase
             ->method('isSuccessful')
             ->willReturn(false);
 
-        $this->process->expects($this->once())
-            ->method('getErrorOutput')
-            ->willReturn('FAILED');
-
-        $this->commandTester->execute([
+        $result = $this->commandTester->execute([
             'name' => $name,
             'psr7' => $psr7,
         ]);
-        $this->assertEquals('FAILED', trim($this->commandTester->getDisplay()));
+
+        $this->assertEquals(SlimCommand::FAILURE, $result);
     }
 
     protected function getProcessCommand(string $slimPackage, array $psr7Package): array
