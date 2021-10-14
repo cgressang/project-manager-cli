@@ -7,9 +7,11 @@ use Pmc\Commands\{
     CakePHPCommand,
     LaravelCommand,
     LumenCommand,
+    SlimCommand,
     SymfonyCommand
 };
 use Symfony\Component\Console\Application;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 
 /**
@@ -32,6 +34,13 @@ class BaseCommandTestCase extends TestCase
     protected Process $process;
 
     /**
+     * Filesystem. used for mocking
+     *
+     * @var Filesystem
+     */
+    protected Filesystem $filesystem;
+
+    /**
      * Commands. Add new commands to be tested
      *
      * @var array
@@ -40,6 +49,7 @@ class BaseCommandTestCase extends TestCase
         CakePHPCommand::class,
         LaravelCommand::class,
         LumenCommand::class,
+        SlimCommand::class,
         SymfonyCommand::class,
     ];
 
@@ -53,12 +63,14 @@ class BaseCommandTestCase extends TestCase
         // Create process mock
         $this->process = $this->createMock(Process::class);
 
+        $this->filesystem = $this->createMock(Filesystem::class);
+
         $this->application = new Application();
 
         // Create partial mocks for commands and add them to application
         foreach ($this->commands as $command) {
             $mock = $this->getMockBuilder($command)
-                ->setMethods(['process'])
+                ->setMethods(['process', 'filesystem'])
                 ->getMock();
 
             $this->application->add($mock);

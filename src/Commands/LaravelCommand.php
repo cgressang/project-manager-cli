@@ -16,7 +16,6 @@ class LaravelCommand extends Command
      */
     protected static $defaultName = 'laravel';
 
-
     /**
      * Command description
      * @var string

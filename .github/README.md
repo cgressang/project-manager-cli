@@ -13,9 +13,10 @@ CLI to install new projects
 
 # Projects
 
-    CakePHP.
+    CakePHP
     Laravel. versions: 6,8
     Lumen. versions: 6, 8
+    Slim
     Symfony. web and microservice,console,api
 
 # Launch

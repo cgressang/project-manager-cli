@@ -3,6 +3,7 @@
 namespace Pmc;
 
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 
 /**
@@ -19,5 +20,15 @@ class Command extends SymfonyCommand
     public function process(array $command): Process
     {
         return new Process($command);
+    }
+
+    /**
+     * Creates new filesystem
+     *
+     * @return Filesystem
+     */
+    public function filesystem(): Filesystem
+    {
+        return new Filesystem();
     }
 }
