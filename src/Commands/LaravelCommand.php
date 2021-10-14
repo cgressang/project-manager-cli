@@ -24,7 +24,7 @@ class LaravelCommand extends Command
 
     /**
      * Configuration of command
-     * Setting name and description for symfony tests.
+     * Setting name and description for tests.
      *
      * @return void
      */
@@ -32,9 +32,7 @@ class LaravelCommand extends Command
     {
         $this->setName('laravel')
             ->setDescription('create a laravel project.')
-            ->setHelp('This command creates a laravel project.');
-
-        $this
+            ->setHelp('This command creates a laravel project.')
             ->addArgument('name', InputArgument::REQUIRED, 'project name')
             ->addOption('laravel-version', null, InputOption::VALUE_OPTIONAL, 'laravel version');
     }
@@ -65,7 +63,7 @@ class LaravelCommand extends Command
             'composer',
             'create-project',
             '--prefer-dist',
-            'laravel/laravel',
+            Laravel::PACKAGE,
             $name,
             Laravel::ACTIVE_VERSIONS[$version]
         ]);
@@ -75,11 +73,8 @@ class LaravelCommand extends Command
 
         // Check and handle error from process
         if (!$process->isSuccessful()) {
-            $output->writeln($process->getErrorOutput());
             return Command::FAILURE;
         }
-
-        $output->writeln('Installation complete');
 
         return Command::SUCCESS;
     }

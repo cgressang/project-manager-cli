@@ -4,21 +4,22 @@ namespace Pmc\Tests\Commands;
 
 use Mockery;
 
-use Pmc\Commands\{CakePHP, CakePHPCommand};
+use Pmc\Commands\{Laminas, LaminasCommand};
 use Pmc\Tests\BaseCommandTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\Filesystem\Exception\IOException;
 
-class CakePHPCommandTest extends BaseCommandTestCase
+class LaminasCommandTest extends BaseCommandTestCase
 {
     private CommandTester $commandTester;
 
-    private CakePHPCommand $testCommand;
+    private LaminasCommand $testCommand;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->testCommand = $this->application->find('cakephp');
+        $this->testCommand = $this->application->find('laminas');
         $this->commandTester = new CommandTester($this->testCommand);
     }
 
@@ -44,8 +45,7 @@ class CakePHPCommandTest extends BaseCommandTestCase
         $result = $this->commandTester->execute([
             'name' => $name,
         ]);
-
-        $this->assertEquals(CakePHPCommand::SUCCESS, $result);
+        $this->assertEquals(LaminasCommand::SUCCESS, $result);
     }
 
     public function testFailedInstall(): void
@@ -70,7 +70,7 @@ class CakePHPCommandTest extends BaseCommandTestCase
         $result = $this->commandTester->execute([
             'name' => $name,
         ]);
-        $this->assertEquals(CakePHPCommand::FAILURE, $result);
+        $this->assertEquals(LaminasCommand::FAILURE, $result);
     }
 
     protected function getProcessCommand(string $name): array
@@ -78,8 +78,9 @@ class CakePHPCommandTest extends BaseCommandTestCase
         return [
             'composer',
             'create-project',
-            '--prefer-dist',
-            CakePHP::PACKAGE,
+            '-s',
+            'dev',
+            Laminas::PACKAGE,
             $name,
         ];
     }

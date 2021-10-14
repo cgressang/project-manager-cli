@@ -3,16 +3,16 @@
 namespace Pmc\Commands;
 
 /**
- * Slim psr-7 Implementations
+ * Slim constants
  */
 class Slim
 {
+    const PACKAGE = 'slim/slim:4.*';
+
     const SLIM = 'slim';
     const NYHOLM = 'nyholm';
     const GUZZLE = 'guzzle';
     const LAMINAS = 'laminas';
-
-    const PACKAGE = 'slim/slim:4.*';
 
     const PSR_PACKAGES = [
         self::SLIM => ['slim/psr7'],

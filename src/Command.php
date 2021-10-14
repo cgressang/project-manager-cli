@@ -19,7 +19,10 @@ class Command extends SymfonyCommand
      */
     public function process(array $command): Process
     {
-        return new Process($command);
+        $process = new Process($command);
+        $process->setTty(true);
+        $process->setTimeout(null);
+        return $process;
     }
 
     /**

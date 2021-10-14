@@ -3,7 +3,7 @@
 namespace Pmc\Commands;
 
 /**
- * Symfony packages
+ * Symfony constants
  */
 class Symfony
 {

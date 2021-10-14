@@ -25,7 +25,7 @@ class ZendCommand extends Command
 
     /**
      * Configuration of command
-     * Setting name and description for zend tests.
+     * Setting name and description for tests.
      *
      * @return void
      */
@@ -33,9 +33,7 @@ class ZendCommand extends Command
     {
         $this->setName('zend')
             ->setDescription('create a zend project.')
-            ->setHelp('This command creates a zend project.');
-
-        $this
+            ->setHelp('This command creates a zend project.')
             ->addArgument('name', InputArgument::REQUIRED, 'project name')
             ->addOption('mvc', null, InputOption::VALUE_NONE, 'mvc');
     }
@@ -50,13 +48,11 @@ class ZendCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $name = $input->getArgument('name');
-        $mvc = $input->getOption('mvc');
 
         // Check for install package
-        if ($mvc) {
+        $package = Zend::FRAMEWORK_PACKAGE;
+        if ($input->getOption('mvc')) {
             $package = Zend::MVC_PACKAGE;
-        } else {
-            $package = Zend::FRAMEWORK_PACKAGE;
         }
 
         $filesystem = $this->Filesystem();
@@ -82,11 +78,8 @@ class ZendCommand extends Command
 
         // Check and handle error from process
         if (!$process->isSuccessful()) {
-            $output->writeln($process->getErrorOutput());
             return Command::FAILURE;
         }
-
-        $output->writeln('Installation complete');
 
         return Command::SUCCESS;
     }

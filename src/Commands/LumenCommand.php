@@ -25,7 +25,7 @@ class LumenCommand extends Command
 
     /**
      * Configuration of command
-     * Setting name and description for symfony tests.
+     * Setting name and description for tests.
      *
      * @return void
      */
@@ -33,9 +33,7 @@ class LumenCommand extends Command
     {
         $this->setName('lumen')
             ->setDescription('create a Lumen project.')
-            ->setHelp('This command creates a Lumen project.');
-
-        $this
+            ->setHelp('This command creates a Lumen project.')
             ->addArgument('name', InputArgument::REQUIRED, 'project name')
             ->addOption('lumen-version', null, InputOption::VALUE_OPTIONAL, 'lumen version');
     }

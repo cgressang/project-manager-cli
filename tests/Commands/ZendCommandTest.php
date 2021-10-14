@@ -51,10 +51,11 @@ class ZendCommandTest extends BaseCommandTestCase
             ->method('isSuccessful')
             ->willReturn(true);
 
-        $this->commandTester->execute([
+        $result = $this->commandTester->execute([
             'name' => $name,
         ]);
-        $this->assertEquals('Installation complete', trim($this->commandTester->getDisplay()));
+
+        $this->assertEquals(ZendCommand::SUCCESS, $result);
     }
 
     public function testMvcInstall(): void
@@ -86,11 +87,12 @@ class ZendCommandTest extends BaseCommandTestCase
             ->method('isSuccessful')
             ->willReturn(true);
 
-        $this->commandTester->execute([
+        $result = $this->commandTester->execute([
             'name' => $name,
             '--mvc' => $mvc,
         ]);
-        $this->assertEquals('Installation complete', trim($this->commandTester->getDisplay()));
+
+        $this->assertEquals(ZendCommand::SUCCESS, $result);
     }
 
     public function testMakeDirFail(): void
@@ -111,10 +113,12 @@ class ZendCommandTest extends BaseCommandTestCase
             ->with($name)
             ->will($this->throwException(new IOException('')));
 
-        $this->commandTester->execute([
+        $result = $this->commandTester->execute([
             'name' => $name,
         ]);
+
         $this->assertEquals('Could not create directory: testApp', trim($this->commandTester->getDisplay()));
+        $this->assertEquals(ZendCommand::FAILURE, $result);
     }
 
     public function testFailedInstall(): void
@@ -145,14 +149,11 @@ class ZendCommandTest extends BaseCommandTestCase
             ->method('isSuccessful')
             ->willReturn(false);
 
-        $this->process->expects($this->once())
-            ->method('getErrorOutput')
-            ->willReturn('FAILED');
-
-        $this->commandTester->execute([
+        $result = $this->commandTester->execute([
             'name' => $name,
         ]);
-        $this->assertEquals('FAILED', trim($this->commandTester->getDisplay()));
+
+        $this->assertEquals(ZendCommand::FAILURE, $result);
     }
 
     protected function getProcessCommand(string $package): array

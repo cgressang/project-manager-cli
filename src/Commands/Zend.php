@@ -3,7 +3,7 @@
 namespace Pmc\Commands;
 
 /**
- * Zend packages
+ * Zend constants
  */
 class Zend
 {

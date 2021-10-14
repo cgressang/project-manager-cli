@@ -3,10 +3,12 @@
 namespace Pmc\Commands;
 
 /**
- * Laravel active versions
+ * Laravel constants
  */
 class Laravel
 {
+    const PACKAGE = 'laravel/laravel';
+
     const VERION_SIX = '6';
     const VERSION_EIGHT = '8';
 

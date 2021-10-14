@@ -42,10 +42,11 @@ class SymfonyCommandTest extends BaseCommandTestCase
             ->method('isSuccessful')
             ->willReturn(true);
 
-        $this->commandTester->execute([
+        $result = $this->commandTester->execute([
             'name' => $name,
         ]);
-        $this->assertEquals('Installation complete', trim($this->commandTester->getDisplay()));
+
+        $this->assertEquals(SymfonyCommand::SUCCESS, $result);
     }
 
     public function testMicroServiceInstall(): void
@@ -68,11 +69,12 @@ class SymfonyCommandTest extends BaseCommandTestCase
             ->method('isSuccessful')
             ->willReturn(true);
 
-        $this->commandTester->execute([
+        $result = $this->commandTester->execute([
             'name' => $name,
             '--microservice' => true,
         ]);
-        $this->assertEquals('Installation complete', trim($this->commandTester->getDisplay()));
+
+        $this->assertEquals(SymfonyCommand::SUCCESS, $result);
     }
 
     public function testConsoleInstall(): void
@@ -95,11 +97,12 @@ class SymfonyCommandTest extends BaseCommandTestCase
             ->method('isSuccessful')
             ->willReturn(true);
 
-        $this->commandTester->execute([
+        $result = $this->commandTester->execute([
             'name' => $name,
             '--console' => true,
         ]);
-        $this->assertEquals('Installation complete', trim($this->commandTester->getDisplay()));
+
+        $this->assertEquals(SymfonyCommand::SUCCESS, $result);
     }
 
     public function testApiInstall(): void
@@ -122,11 +125,12 @@ class SymfonyCommandTest extends BaseCommandTestCase
             ->method('isSuccessful')
             ->willReturn(true);
 
-        $this->commandTester->execute([
+        $result = $this->commandTester->execute([
             'name' => $name,
             '--api' => true,
         ]);
-        $this->assertEquals('Installation complete', trim($this->commandTester->getDisplay()));
+
+        $this->assertEquals(SymfonyCommand::SUCCESS, $result);
     }
 
     public function testFailedInstall(): void
@@ -149,14 +153,11 @@ class SymfonyCommandTest extends BaseCommandTestCase
             ->method('isSuccessful')
             ->willReturn(false);
 
-        $this->process->expects($this->once())
-            ->method('getErrorOutput')
-            ->willReturn('FAILED');
-
-        $this->commandTester->execute([
+        $result = $this->commandTester->execute([
             'name' => $name,
         ]);
-        $this->assertEquals('FAILED', trim($this->commandTester->getDisplay()));
+
+        $this->assertEquals(SymfonyCommand::FAILURE, $result);
     }
 
     protected function getProcessCommand(string $name, string $package): array
