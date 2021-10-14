@@ -8,7 +8,8 @@ use Pmc\Commands\{
     LaravelCommand,
     LumenCommand,
     SlimCommand,
-    SymfonyCommand
+    SymfonyCommand,
+    ZendCommand
 };
 use Symfony\Component\Console\Application;
 use Symfony\Component\Filesystem\Filesystem;
@@ -51,6 +52,7 @@ class BaseCommandTestCase extends TestCase
         LumenCommand::class,
         SlimCommand::class,
         SymfonyCommand::class,
+        ZendCommand::class,
     ];
 
     /**
