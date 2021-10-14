@@ -20,7 +20,7 @@ class LaravelCommand extends Command
      * Command description
      * @var string
      */
-    protected static $defaultDescription = 'create a laravel project.';
+    protected static $defaultDescription = 'Create a Laravel project.';
 
     /**
      * Configuration of command
@@ -31,14 +31,14 @@ class LaravelCommand extends Command
     protected function configure(): void
     {
         $this->setName('laravel')
-            ->setDescription('create a laravel project.')
-            ->setHelp('This command creates a laravel project.')
-            ->addArgument('name', InputArgument::REQUIRED, 'project name')
-            ->addOption('laravel-version', null, InputOption::VALUE_OPTIONAL, 'laravel version');
+            ->setDescription('Create a Laravel project.')
+            ->setHelp('This command creates a Laravel project.')
+            ->addArgument('name', InputArgument::REQUIRED, 'Project name')
+            ->addOption('laravel-version', null, InputOption::VALUE_OPTIONAL, 'Laravel version');
     }
 
     /**
-     * Execution of command to install a laravel project in current directory
+     * Execution of command to install a Laravel project in current directory
      *
      * @param  InputInterface  $input
      * @param  OutputInterface $output

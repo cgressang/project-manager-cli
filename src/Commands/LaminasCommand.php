@@ -20,7 +20,7 @@ class LaminasCommand extends Command
      * Command description
      * @var string
      */
-    protected static $defaultDescription = 'create a laminas project.';
+    protected static $defaultDescription = 'Create a Laminas project.';
 
     /**
      * Configuration of command
@@ -31,13 +31,13 @@ class LaminasCommand extends Command
     protected function configure(): void
     {
         $this->setName('laminas')
-            ->setDescription('create a laminas project.')
-            ->setHelp('This command creates a laminas project.')
-            ->addArgument('name', InputArgument::REQUIRED, 'project name');
+            ->setDescription('Create a Laminas project.')
+            ->setHelp('This command creates a Laminas project.')
+            ->addArgument('name', InputArgument::REQUIRED, 'Project name');
     }
 
     /**
-     * Execution of command to install a laminas project in current directory
+     * Execution of command to install a Laminas project in current directory
      *
      * @param  InputInterface  $input
      * @param  OutputInterface $output

@@ -21,7 +21,7 @@ class LumenCommand extends Command
      * Command description
      * @var string
      */
-    protected static $defaultDescription = 'create a Lumen project.';
+    protected static $defaultDescription = 'Create a Lumen project.';
 
     /**
      * Configuration of command
@@ -32,10 +32,10 @@ class LumenCommand extends Command
     protected function configure(): void
     {
         $this->setName('lumen')
-            ->setDescription('create a Lumen project.')
+            ->setDescription('Create a Lumen project.')
             ->setHelp('This command creates a Lumen project.')
-            ->addArgument('name', InputArgument::REQUIRED, 'project name')
-            ->addOption('lumen-version', null, InputOption::VALUE_OPTIONAL, 'lumen version');
+            ->addArgument('name', InputArgument::REQUIRED, 'Project name')
+            ->addOption('lumen-version', null, InputOption::VALUE_OPTIONAL, 'Lumen version');
     }
 
     /**
