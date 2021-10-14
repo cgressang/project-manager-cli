@@ -5,7 +5,6 @@ namespace Pmc\Commands;
 use Pmc\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CakePHPCommand extends Command
@@ -15,7 +14,6 @@ class CakePHPCommand extends Command
      * @var string
      */
     protected static $defaultName = 'cakephp';
-
 
     /**
      * Command description
@@ -40,7 +38,7 @@ class CakePHPCommand extends Command
     }
 
     /**
-     * Execution of command to install a laravel project in current directory
+     * Execution of command to install a cakePHP project in current directory
      *
      * @param  InputInterface  $input
      * @param  OutputInterface $output

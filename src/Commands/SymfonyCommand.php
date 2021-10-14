@@ -16,7 +16,6 @@ class SymfonyCommand extends Command
      */
     protected static $defaultName = 'symfony';
 
-
     /**
      * Command description
      * @var string
