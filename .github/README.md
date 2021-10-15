@@ -16,7 +16,9 @@ $ sudo mv pmc.phar /usr/local/bin/pmc
 ```
 
 # Projects available
+
 ### PHP
+
 * [CakePHP](https://cakephp.org/)
 * [CodeIgniter](https://codeigniter.com/)
   * Versions: 3, 4
@@ -37,8 +39,12 @@ $ sudo mv pmc.phar /usr/local/bin/pmc
 
 ### [Angular](https://angular.io/)
 
+### React
+
+* [Create React App](https://create-react-app.dev/)
+
 # Launch
 
 ```console
-$ pmc [project] [OPTIONS]
+$ pmc [project] [NAME] [OPTIONS]
 ```
