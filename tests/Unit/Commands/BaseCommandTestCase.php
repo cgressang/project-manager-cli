@@ -14,7 +14,7 @@ use Pmc\Commands\PHP\{
     SymfonyCommand,
     ZendCommand
 };
-use Pmc\Commands\React\CreateReactAppCommand;
+use Pmc\Commands\React\{CreateReactAppCommand, NextJSCommand};
 use Symfony\Component\Console\Application;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
@@ -64,6 +64,7 @@ class BaseCommandTestCase extends TestCase
         ZendCommand::class,
         // React
         CreateReactAppCommand::class,
+        NextJSCommand::class,
     ];
 
     /**

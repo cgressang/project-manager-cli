@@ -8,19 +8,19 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CreateReactAppCommand extends Command
+class NextJSCommand extends Command
 {
     /**
      * Command name
      * @var string
      */
-    protected static $defaultName = 'createreactapp';
+    protected static $defaultName = 'nextjs';
 
     /**
      * Command description
      * @var string
      */
-    protected static $defaultDescription = 'Create a React App project.';
+    protected static $defaultDescription = 'Create a NextJS project.';
 
     /**
      * Configuration of command
@@ -30,16 +30,15 @@ class CreateReactAppCommand extends Command
      */
     protected function configure(): void
     {
-        $this->setName('createreactapp')
-            ->setDescription('Create a React App project.')
-            ->setHelp('This command creates a React App project.')
-            ->addArgument('name', InputArgument::REQUIRED, 'Project name')
-            ->addOption('template', null, InputOption::VALUE_REQUIRED, 'Template')
+        $this->setName('nextjs')
+            ->setDescription('Create a NextJS project.')
+            ->setHelp('This command creates a NextJS project.')
+            ->addOption('typescript', null, InputOption::VALUE_NONE, 'Initialize as a typescript project')
             ->addOption('use-npm', null, InputOption::VALUE_NONE, 'Bootstrap using npm');
     }
 
     /**
-     * Execution of command to install a React App project in current directory
+     * Execution of command to install a NextJS project in current directory
      *
      * @param  InputInterface  $input
      * @param  OutputInterface $output
@@ -47,19 +46,16 @@ class CreateReactAppCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $name = $input->getArgument('name');
-        $template = $input->getOption('template');
+        $template = $input->getOption('typescript');
         $useNpm = $input->getOption('use-npm');
 
         $commandArr = [
             'npx',
-            'create-react-app',
-            $name,
+            'create-next-app@latest',
         ];
 
         if ($template) {
-            $commandArr[] = '--template';
-            $commandArr[] = $template;
+            $commandArr[] = '--typescript';
         }
 
         if ($useNpm) {

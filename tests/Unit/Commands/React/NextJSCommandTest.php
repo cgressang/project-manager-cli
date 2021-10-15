@@ -2,33 +2,32 @@
 
 namespace Pmc\Tests\Unit\Commands\React;
 
-use Pmc\Commands\React\CreateReactAppCommand;
+use Pmc\Commands\React\NextJSCommand;
 use Pmc\Tests\Unit\Commands\BaseCommandTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class CreateReactAppCommandTest extends BaseCommandTestCase
+class NextJSCommandTest extends BaseCommandTestCase
 {
     private CommandTester $commandTester;
 
-    private CreateReactAppCommand $testCommand;
+    private NextJSCommand $testCommand;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->testCommand = $this->application->find('createreactapp');
+        $this->testCommand = $this->application->find('nextjs');
         $this->commandTester = new CommandTester($this->testCommand);
     }
 
     public function testInstall(): void
     {
-        $name = 'testApp';
-        $template = null;
+        $typescript = false;
         $useNpm = false;
 
         $this->testCommand->expects($this->once())
             ->method('process')
-            ->with($this->getProcessCommand($name, $template, $useNpm))
+            ->with($this->getProcessCommand($typescript, $useNpm))
             ->willReturn($this->process);
 
         $this->process->expects($this->once())
@@ -41,22 +40,19 @@ class CreateReactAppCommandTest extends BaseCommandTestCase
             ->method('isSuccessful')
             ->willReturn(true);
 
-        $result = $this->commandTester->execute([
-            'name' => $name,
-        ]);
+        $result = $this->commandTester->execute([]);
 
-        $this->assertEquals(CreateReactAppCommand::SUCCESS, $result);
+        $this->assertEquals(NextJSCommand::SUCCESS, $result);
     }
 
-    public function testTemplateInstall(): void
+    public function testOptionsInstall(): void
     {
-        $name = 'testApp';
-        $template = 'typescript';
+        $typescript = true;
         $useNpm = true;
 
         $this->testCommand->expects($this->once())
             ->method('process')
-            ->with($this->getProcessCommand($name, $template, $useNpm))
+            ->with($this->getProcessCommand($typescript, $useNpm))
             ->willReturn($this->process);
 
         $this->process->expects($this->once())
@@ -70,23 +66,21 @@ class CreateReactAppCommandTest extends BaseCommandTestCase
             ->willReturn(true);
 
         $result = $this->commandTester->execute([
-            'name' => $name,
-            '--template' => $template,
+            '--typescript' => $typescript,
             '--use-npm' => $useNpm,
         ]);
 
-        $this->assertEquals(CreateReactAppCommand::SUCCESS, $result);
+        $this->assertEquals(NextJSCommand::SUCCESS, $result);
     }
 
     public function testFailedInstall(): void
     {
-        $name = 'testApp';
-        $template = null;
+        $typescript = false;
         $useNpm = false;
 
         $this->testCommand->expects($this->once())
             ->method('process')
-            ->with($this->getProcessCommand($name, $template, $useNpm))
+            ->with($this->getProcessCommand($typescript, $useNpm))
             ->willReturn($this->process);
 
         $this->process->expects($this->once())
@@ -99,23 +93,19 @@ class CreateReactAppCommandTest extends BaseCommandTestCase
             ->method('isSuccessful')
             ->willReturn(false);
 
-        $result = $this->commandTester->execute([
-            'name' => $name,
-        ]);
-        $this->assertEquals(CreateReactAppCommand::FAILURE, $result);
+        $result = $this->commandTester->execute([]);
+        $this->assertEquals(NextJSCommand::FAILURE, $result);
     }
 
-    protected function getProcessCommand(string $name, ?string $template, bool $useNpm): array
+    protected function getProcessCommand(bool $typescript, bool $useNpm): array
     {
         $commandArr = [
             'npx',
-            'create-react-app',
-            $name,
+            'create-next-app@latest',
         ];
 
-        if (!is_null($template)) {
-            $commandArr[] = '--template';
-            $commandArr[] = $template;
+        if ($typescript) {
+            $commandArr[] = '--typescript';
         }
 
         if ($useNpm) {

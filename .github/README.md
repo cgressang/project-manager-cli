@@ -21,7 +21,6 @@ $ sudo mv pmc.phar /usr/local/bin/pmc
 
 * [CakePHP](https://cakephp.org/)
 * [CodeIgniter](https://codeigniter.com/)
-  * Versions: 3, 4
 * [Laminas](https://getlaminas.org/)
 * [Laravel](https://laravel.com/)
   * Versions: 6, 8
@@ -42,6 +41,7 @@ $ sudo mv pmc.phar /usr/local/bin/pmc
 ### React
 
 * [Create React App](https://create-react-app.dev/)
+* [Next.js](https://nextjs.org/)
 
 # Launch
 
