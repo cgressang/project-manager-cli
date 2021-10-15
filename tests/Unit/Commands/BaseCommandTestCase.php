@@ -14,6 +14,7 @@ use Pmc\Commands\PHP\{
     SymfonyCommand,
     ZendCommand
 };
+use Pmc\Commands\React\CreateReactAppCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
@@ -50,9 +51,9 @@ class BaseCommandTestCase extends TestCase
      * @var array
      */
     private array $commands = [
-        //Angular
+        // Angular
         AngularCommand::class,
-        //PHP
+        // PHP
         CakePHPCommand::class,
         CodeIgniterCommand::class,
         LaminasCommand::class,
@@ -61,6 +62,8 @@ class BaseCommandTestCase extends TestCase
         SlimCommand::class,
         SymfonyCommand::class,
         ZendCommand::class,
+        // React
+        CreateReactAppCommand::class,
     ];
 
     /**

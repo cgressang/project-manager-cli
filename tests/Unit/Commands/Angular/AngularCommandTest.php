@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Pmc\Tests\Unit\Commands\PHP;
+namespace Pmc\Tests\Unit\Commands\Angular;
 
 use Pmc\Commands\Angular\AngularCommand;
 use Pmc\Tests\Unit\Commands\BaseCommandTestCase;
