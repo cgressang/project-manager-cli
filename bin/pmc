@@ -9,7 +9,7 @@ use Pmc\Commands\React;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Filesystem\Exception\IOException;
 
-$application = new Application('Pmc', '0.2.0');
+$application = new Application('Pmc', '0.2.1');
 
 // Angular
 $application->add(new Angular\AngularCommand());
@@ -24,5 +24,6 @@ $application->add(new PHP\SymfonyCommand());
 $application->add(new PHP\ZendCommand());
 // React
 $application->add(new React\CreateReactAppCommand());
+$application->add(new React\NextJSCommand());
 
 $application->run();
